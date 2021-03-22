@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background">#191926</color>
+    <color name="back_menu_link">#6D6D80</color>
+    <color name="tag_line">#FF3466</color>
+    <color name="h_color">#ECECEC</color>
+    <color name="numberOfReviewColor">#6D6D80</color>
+    <color name="names_color">#D8D8D8</color>
+    <color name="radial_gradient_start">#559797A3</color>
+    <color name="radial_gradient_stop">#5585858E</color>
+    <color name="min">#565665</color>
+    <color name="movie_stroke">#803B3B4D</color>
 </resources>
