@@ -31,7 +31,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tagLine"
-            app:srcCompat="@drawable/star_icon" />
+            app:srcCompat="@drawable/raiting_progress" />
 
         <ImageView
             android:id="@+id/star_2"
@@ -41,7 +41,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/star_1"
             app:layout_constraintTop_toBottomOf="@+id/tagLine"
-            app:srcCompat="@drawable/star_icon" />
+            app:srcCompat="@drawable/raiting_progress" />
 
         <ImageView
             android:id="@+id/star_3"
@@ -51,7 +51,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/star_2"
             app:layout_constraintTop_toBottomOf="@+id/tagLine"
-            app:srcCompat="@drawable/star_icon" />
+            app:srcCompat="@drawable/raiting_progress" />
 
         <ImageView
             android:id="@+id/star_4"
@@ -61,7 +61,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/star_3"
             app:layout_constraintTop_toBottomOf="@+id/tagLine"
-            app:srcCompat="@drawable/star_icon" />
+            app:srcCompat="@drawable/raiting_progress" />
 
         <ImageView
             android:id="@+id/star_5"
@@ -71,7 +71,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/star_4"
             app:layout_constraintTop_toBottomOf="@+id/tagLine"
-            app:srcCompat="@drawable/star_icon_1" />
+            app:srcCompat="@drawable/rating_intermediate" />
 
         <TextView
             android:id="@+id/back"
