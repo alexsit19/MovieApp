@@ -8,7 +8,8 @@
      app:cardCornerRadius="8dp"
      app:cardElevation="24dp"
      app:strokeColor="@color/movie_stroke"
-     android:backgroundTint="@color/background"
+    android:backgroundTint="@android:color/transparent"
+
      app:strokeWidth="1dp">
      <!--android:adjustViewBounds="true"-->
      <!--android:backgroundTint="@color/background"-->

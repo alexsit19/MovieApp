@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movieapp.data.Movie
 import com.example.movieapp.data.loadMovies
 import kotlinx.coroutines.*
 
@@ -37,6 +38,7 @@ class FragmentMoviesList : Fragment() {
         val rvMovies = view.findViewById<View>(R.id.rvMovies) as RecyclerView
         rvMovies.adapter = moviesAdapter
         rvMovies.addItemDecoration(SimpleDividerItemDecoration(25))
+        rvMovies.isNestedScrollingEnabled = false
         rvMovies.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
     }
 
@@ -46,5 +48,6 @@ class FragmentMoviesList : Fragment() {
             val moviesList = loadMovies(requireContext())
             moviesAdapter?.updateMovies(moviesList)
         }
+
     }
 }
