@@ -1,5 +1,6 @@
 package com.example.movieapp
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,13 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movieapp.data.Movie
 import com.example.movieapp.data.loadMovies
 import kotlinx.coroutines.*
 
 class FragmentMoviesList : Fragment() {
 
     private var moviesAdapter: MoviesAdapter? = null
+    private var clickListener: MovieClickListener? = null
+
     private val exceptionHandler = CoroutineExceptionHandler {
         coroutineContext, exception ->
         println("CoroutineExceptionHandler got $exception in $coroutineContext")
@@ -34,12 +36,24 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        moviesAdapter = MoviesAdapter()
+        moviesAdapter = MoviesAdapter(clickListener)
         val rvMovies = view.findViewById<View>(R.id.rvMovies) as RecyclerView
         rvMovies.adapter = moviesAdapter
         rvMovies.addItemDecoration(SimpleDividerItemDecoration(25))
         rvMovies.isNestedScrollingEnabled = false
         rvMovies.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+    }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        clickListener = activity as MovieClickListener
+
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        clickListener = null
     }
 
     override fun onStart() {

@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.data.Movie
 
 
-class MoviesAdapter : RecyclerView.Adapter<ViewHolderMovies>() {
+class MoviesAdapter(private val clickListener: MovieClickListener?) : RecyclerView.Adapter<ViewHolderMovies>() {
 
     private var moviesList = listOf<Movie>()
 
@@ -24,6 +24,9 @@ class MoviesAdapter : RecyclerView.Adapter<ViewHolderMovies>() {
 
     override fun onBindViewHolder(holder: ViewHolderMovies, position: Int) {
         holder.bind(moviesList[position])
+        holder.itemView.setOnClickListener {
+            clickListener?.clickOnItem(position)
+        }
 
     }
 
