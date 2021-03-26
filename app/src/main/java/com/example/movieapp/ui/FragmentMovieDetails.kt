@@ -1,4 +1,4 @@
-package com.example.movieapp
+package com.example.movieapp.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.movieapp.ui.actor.ActorAdapter
+import com.example.movieapp.R
+import com.example.movieapp.ui.movie.SimpleDividerItemDecoration
 import com.example.movieapp.data.Movie
 import com.example.movieapp.data.loadMovie
 import kotlinx.coroutines.*

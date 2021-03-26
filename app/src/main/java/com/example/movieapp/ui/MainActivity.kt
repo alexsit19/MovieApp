@@ -1,9 +1,8 @@
-package com.example.movieapp
+package com.example.movieapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.example.movieapp.data.Movie
+import com.example.movieapp.R
 
 class MainActivity : AppCompatActivity() {
 
