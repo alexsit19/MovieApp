@@ -2,19 +2,21 @@ package com.example.movieapp
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movieapp.data.Movie
 import com.example.movieapp.data.loadMovies
 import kotlinx.coroutines.*
 
 class FragmentMoviesList : Fragment() {
 
     private var moviesAdapter: MoviesAdapter? = null
-    private var clickListener: MovieClickListener? = null
+    private var listener: (Movie) -> Unit = { clickOnItem(it) }
 
     private val exceptionHandler = CoroutineExceptionHandler {
         coroutineContext, exception ->
@@ -36,7 +38,7 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        moviesAdapter = MoviesAdapter(clickListener)
+        moviesAdapter = MoviesAdapter(listener)
         val rvMovies = view.findViewById<View>(R.id.rvMovies) as RecyclerView
         rvMovies.adapter = moviesAdapter
         rvMovies.addItemDecoration(SimpleDividerItemDecoration(25))
@@ -47,13 +49,25 @@ class FragmentMoviesList : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        clickListener = activity as MovieClickListener
+        //clickListener = activity as MovieClickListener
 
     }
 
     override fun onDetach() {
         super.onDetach()
-        clickListener = null
+
+    }
+
+    private fun clickOnItem(movie: Movie) {
+        val id = movie.id
+        Log.d("DEBUG", "dddddddddddddddd $id")
+        (activity as MainActivity).apply {
+            supportFragmentManager.beginTransaction().apply {
+                add(R.id.place_for_fragment, FragmentMovieDetails.newInstance(movie.id))
+                addToBackStack(null)
+                commit()
+            }
+        }
     }
 
     override fun onStart() {

@@ -8,8 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieapp.data.Actor
+import com.example.movieapp.data.Movie
 
-class ActorAdapter : RecyclerView.Adapter<ViewHolderActors>() {
+class ActorAdapter: RecyclerView.Adapter<ViewHolderActors>() {
+
+
 
     private var actorList = listOf<Actor>()
 

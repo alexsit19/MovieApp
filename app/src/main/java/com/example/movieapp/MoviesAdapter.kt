@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.data.Movie
 
 
-class MoviesAdapter(private val clickListener: MovieClickListener?) : RecyclerView.Adapter<ViewHolderMovies>() {
+class MoviesAdapter(private val onItemClicked: (Movie) -> Unit) : RecyclerView.Adapter<ViewHolderMovies>() {
 
     private var moviesList = listOf<Movie>()
 
@@ -19,14 +19,13 @@ class MoviesAdapter(private val clickListener: MovieClickListener?) : RecyclerVi
         val context = parent.context
         val inflater = LayoutInflater.from(context)
         val movieView = inflater.inflate(R.layout.view_holder_movie, parent, false)
-        return ViewHolderMovies(movieView)
+        return ViewHolderMovies(movieView) {
+            onItemClicked(moviesList[it])
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolderMovies, position: Int) {
         holder.bind(moviesList[position])
-        holder.itemView.setOnClickListener {
-            clickListener?.clickOnItem(position)
-        }
 
     }
 
@@ -40,7 +39,15 @@ class MoviesAdapter(private val clickListener: MovieClickListener?) : RecyclerVi
     }
 }
 
-class ViewHolderMovies(view: View) : RecyclerView.ViewHolder(view) {
+class ViewHolderMovies(
+        view: View,
+        onItemClicked: (Int) -> Unit
+) : RecyclerView.ViewHolder(view) {
+    init {
+        itemView.setOnClickListener{
+            onItemClicked(adapterPosition)
+        }
+    }
     private val age = itemView.findViewById<TextView>(R.id.age_textView)
     private val title = itemView.findViewById<TextView>(R.id.title_textView)
     private val tagLine = itemView.findViewById<TextView>(R.id.tags)
