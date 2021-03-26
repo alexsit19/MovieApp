@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.ui.movie.MoviesAdapter
@@ -14,23 +15,15 @@ import com.example.movieapp.R
 import com.example.movieapp.ui.movie.SimpleDividerItemDecoration
 import com.example.movieapp.data.Movie
 import com.example.movieapp.data.loadMovies
+import com.example.movieapp.viewmodel.FragmentMoviesListViewModel
+import com.example.movieapp.viewmodel.MoviesViewModelFactory
 import kotlinx.coroutines.*
 
 class FragmentMoviesList : Fragment() {
 
     private var moviesAdapter: MoviesAdapter? = null
     private var listener: (Movie) -> Unit = { clickOnItem(it) }
-
-    private val exceptionHandler = CoroutineExceptionHandler {
-        coroutineContext, exception ->
-        println("CoroutineExceptionHandler got $exception in $coroutineContext")
-    }
-
-    private var scope = CoroutineScope(
-        Job() +
-                Dispatchers.IO +
-                exceptionHandler
-    )
+    private lateinit var viewModel: FragmentMoviesListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +33,8 @@ class FragmentMoviesList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this, MoviesViewModelFactory()).get(FragmentMoviesListViewModel::class.java)
 
         moviesAdapter = MoviesAdapter(listener)
         val rvMovies = view.findViewById<View>(R.id.rvMovies) as RecyclerView
@@ -75,10 +70,6 @@ class FragmentMoviesList : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        scope.launch {
-            val moviesList = loadMovies(requireContext())
-            moviesAdapter?.updateMovies(moviesList)
-        }
 
     }
 }
