@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +26,8 @@ class FragmentMoviesList : Fragment() {
     private var moviesAdapter: MoviesAdapter? = null
     private var listener: (Movie) -> Unit = { clickOnItem(it) }
     private lateinit var viewModel: FragmentMoviesListViewModel
+    private lateinit var liveData: LiveData<List<Movie>>
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,10 +35,20 @@ class FragmentMoviesList : Fragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_movies_list, container, false)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        con = requireContext()
+        viewModel = ViewModelProvider(this, MoviesViewModelFactory()).get(FragmentMoviesListViewModel::class.java)
+        liveData = viewModel.getData()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this, MoviesViewModelFactory()).get(FragmentMoviesListViewModel::class.java)
+
+
+
 
         moviesAdapter = MoviesAdapter(listener)
         val rvMovies = view.findViewById<View>(R.id.rvMovies) as RecyclerView
@@ -42,8 +56,15 @@ class FragmentMoviesList : Fragment() {
         rvMovies.addItemDecoration(SimpleDividerItemDecoration(25))
         rvMovies.isNestedScrollingEnabled = false
         rvMovies.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+
+        viewModel.liveData.observe(this.viewLifecycleOwner, Observer<List<Movie>> {
+            updateRecycler()
+        })
     }
 
+    fun updateRecycler() {
+        liveData.value?.let { moviesAdapter?.updateMovies(it) }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -71,5 +92,10 @@ class FragmentMoviesList : Fragment() {
     override fun onStart() {
         super.onStart()
 
+
+    }
+
+    companion object {
+        lateinit var con: Context
     }
 }

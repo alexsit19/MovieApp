@@ -3,13 +3,28 @@ package com.example.movieapp
 import android.app.Application
 import android.content.Context
 
+
 class MoviesApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        context = applicationContext
+
+    init {
+        instance = this
     }
 
     companion object {
-        lateinit var context: Context
+        private var instance: MoviesApplication? = null
+
+        fun getInstance() : MoviesApplication {
+            return instance!!
+        }
     }
-}
+
+//    override fun onCreate() {
+//        super.onCreate()
+//        context = applicationContext
+//    }
+//        companion object {
+//            lateinit var context: Context
+//        }
+    }
+
+
