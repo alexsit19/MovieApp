@@ -74,7 +74,7 @@ class FragmentMoviesList : Fragment() {
 
     private fun clickOnItem(movie: Movie) {
         val id = movie.id
-        Log.d("DEBUG", "dddddddddddddddd $id")
+
         (activity as MainActivity).apply {
             supportFragmentManager.beginTransaction().apply {
                 add(R.id.place_for_fragment, FragmentMovieDetails.newInstance(movie.id))

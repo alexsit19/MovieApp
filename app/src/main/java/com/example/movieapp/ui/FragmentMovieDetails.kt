@@ -60,7 +60,7 @@ class FragmentMovieDetails : Fragment() {
         age = view.findViewById(R.id.age)
         tagLine = view.findViewById(R.id.tagLine)
         title = view.findViewById(R.id.title)
-        review = view.findViewById(R.id.reviews)
+        review = view.findViewById(R.id.review_count)
         overview = view.findViewById(R.id.storyLineContent)
         movieImg = view.findViewById(R.id.imageView)
 
@@ -82,7 +82,7 @@ class FragmentMovieDetails : Fragment() {
              })
 
         viewModel.getLiveGenre().observe(this.viewLifecycleOwner, { tagLine?.text = it})
-        viewModel.getLiveMinimumAge().observe(this.viewLifecycleOwner, { age?.text = it })
+        viewModel.getLiveMinimumAge().observe(this.viewLifecycleOwner, { age?.text = it + "+" })
         viewModel.getLiveNameMovie().observe(this.viewLifecycleOwner, { title?.text = it })
         viewModel.getLiveMovieDescription().observe(this.viewLifecycleOwner, { overview?.text = it })
         viewModel.getLiveReview().observe(this.viewLifecycleOwner, { review?.text = it })
@@ -94,7 +94,6 @@ class FragmentMovieDetails : Fragment() {
         })
 
         val title = viewModel.getLiveNameMovie().value
-        Log.d("DEBBBUG", "film $title")
 
     }
 

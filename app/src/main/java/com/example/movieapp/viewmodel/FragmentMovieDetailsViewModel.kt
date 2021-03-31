@@ -64,7 +64,6 @@ class FragmentMovieDetailsViewModel: ViewModel() {
 
     private fun bind() {
         liveActorList.value = movie?.actors
-        Log.d("DEBUG", "liveActorList from ViewModel " + liveActorList.value.toString())
         liveImageMovie.value = movie?.backdrop
         liveMovieDescription.value = movie?.overview
         liveNameMovie.value = movie?.title

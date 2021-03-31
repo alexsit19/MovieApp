@@ -17,7 +17,7 @@ class FragmentMoviesListViewModel: ViewModel() {
 
     val liveData: LiveData<List<Movie>> = mutableLiveData
 
-    fun loadData() {
+    private fun loadData() {
         viewModelScope.launch {
             mutableLiveData.value = loadMovies(MoviesApplication.getInstance())
         }
@@ -27,22 +27,4 @@ class FragmentMoviesListViewModel: ViewModel() {
         loadData()
         return liveData
     }
-
-//    private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, exception ->
-//        println("CoroutineExceptionHandler got $exception in $coroutineContext")
-//    }
-
-//    private var scope = CoroutineScope(
-//            Job() +
-//                    Dispatchers.IO +
-//                    exceptionHandler
-//    )
-//
-//    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-//    suspend fun loadMovies() {
-//        scope.launch {
-//            moviesList = loadMovies(MoviesApplication.context)
-//            // moviesAdapter?.updateMovies(moviesList)
-//        }
-//    }
 }

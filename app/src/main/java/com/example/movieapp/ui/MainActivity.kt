@@ -10,11 +10,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-            .apply {
-                add(R.id.place_for_fragment, FragmentMoviesList())
-                commit()
-            }
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .apply {
+                        add(R.id.place_for_fragment, FragmentMoviesList())
+                        commit()
+                    }
+
+        }
+
     }
 
     override fun onBackPressed() {
