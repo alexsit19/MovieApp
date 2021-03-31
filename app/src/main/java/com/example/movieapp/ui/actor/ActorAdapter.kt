@@ -31,8 +31,10 @@ class ActorAdapter: RecyclerView.Adapter<ViewHolderActors>() {
         return actorList.size
     }
 
-    fun updateActors(actors: List<Actor>) {
-        actorList = actors
+    fun updateActors(actors: List<Actor>?) {
+        if (actors != null) {
+            actorList = actors
+        }
         notifyDataSetChanged()
     }
 

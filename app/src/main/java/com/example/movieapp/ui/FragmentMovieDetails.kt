@@ -8,46 +8,67 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieapp.ui.actor.ActorAdapter
 import com.example.movieapp.R
+import com.example.movieapp.data.Actor
 import com.example.movieapp.ui.movie.SimpleDividerItemDecoration
-import com.example.movieapp.data.Movie
-import com.example.movieapp.data.loadMovie
-import kotlinx.coroutines.*
+import com.example.movieapp.viewmodel.FragmentMovieDetailsViewModel
+import com.example.movieapp.viewmodel.MoviesViewModelFactory
 
 class FragmentMovieDetails : Fragment() {
 
     private var actorAdapter: ActorAdapter? = null
-    private var exceptionHandler = CoroutineExceptionHandler{
-        coroutineContext, exception ->
-        Log.d("DEBUG", "CoroutineExceptionHandler got $exception in $coroutineContext")
-    }
+    private lateinit var viewModel: FragmentMovieDetailsViewModel
+    private lateinit var liveActorList: LiveData<List<Actor>>
+    private var liveImageMovie: LiveData<String>? = null
+    private var liveMovieDescription: LiveData<String>? = null
+    private var liveNameMovie: LiveData<String>? = null
+    private var liveReview: LiveData<String>? = null
+    private var liveGenre: LiveData<String>? = null
+    private var liveMinimumAge: LiveData<String>? = null
+    private var liveRating: LiveData<Float>? = null
+    private var age: TextView? = null
+    private var tagLine: TextView? = null
+    private var title: TextView? = null
+    private var review: TextView? = null
+    private  var overview: TextView? = null
+    private var movieImg: ImageView? = null
 
-    private val scope = CoroutineScope(
-            SupervisorJob() +
-                    Dispatchers.Main +
-                    exceptionHandler
-    )
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(this, MoviesViewModelFactory()).get(FragmentMovieDetailsViewModel::class.java)
+        val movieId = requireArguments().getInt(MOVIE_ID)
+        viewModel.loadData(movieId)
+        liveActorList = viewModel.getLiveActorList()
+
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_movies_details, container, false)
+    ): View? {
+
+        val view: View = inflater.inflate(R.layout.fragment_movies_details, container, false)
+        age = view.findViewById(R.id.age)
+        tagLine = view.findViewById(R.id.tagLine)
+        title = view.findViewById(R.id.title)
+        review = view.findViewById(R.id.reviews)
+        overview = view.findViewById(R.id.storyLineContent)
+        movieImg = view.findViewById(R.id.imageView)
+
+        return view
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val movieId = requireArguments().getInt(MOVIE_ID)
-
-        scope.launch {
-
-            loadMovie(movieId, requireContext())?.let {
-                movie -> updateMovieInformation(view, movie)
-            }
-        }
 
         actorAdapter = ActorAdapter()
 
@@ -56,35 +77,32 @@ class FragmentMovieDetails : Fragment() {
         rvActors.addItemDecoration((SimpleDividerItemDecoration(25)))
         rvActors.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
 
+        viewModel.getLiveActorList().observe(this.viewLifecycleOwner, Observer<List<Actor>> {
+            updateActors(view)
+             })
+
+        viewModel.getLiveGenre().observe(this.viewLifecycleOwner, { tagLine?.text = it})
+        viewModel.getLiveMinimumAge().observe(this.viewLifecycleOwner, { age?.text = it })
+        viewModel.getLiveNameMovie().observe(this.viewLifecycleOwner, { title?.text = it })
+        viewModel.getLiveMovieDescription().observe(this.viewLifecycleOwner, { overview?.text = it })
+        viewModel.getLiveReview().observe(this.viewLifecycleOwner, { review?.text = it })
+        viewModel.getLiveImageMovie().observe(this.viewLifecycleOwner, {
+            Glide.with(this)
+                    .load(it)
+                    .placeholder(R.drawable.base_line_movie)
+                    .into(movieImg!!)
+        })
+
+        val title = viewModel.getLiveNameMovie().value
+        Log.d("DEBBBUG", "film $title")
+
     }
 
-    fun updateMovieInformation(view: View, movie: Movie?){
+    fun updateActors(view: View){
 
-        val age = view.findViewById<TextView>(R.id.age)
-
-        age.setText(movie?.minimumAge.toString() + "+")
-
-        val imageView = view.findViewById<ImageView>(R.id.imageView)
-        Glide.with(this)
-                .load(movie?.backdrop)
-                .placeholder(R.drawable.base_line_movie)
-                .into(imageView)
-
-        val reviews = view.findViewById<TextView>(R.id.reviews)
-        reviews.setText(movie?.numberOfRatings.toString())
-
-        val overview = view.findViewById<TextView>(R.id.storyLineContent)
-        overview.setText(movie?.overview)
-
-        val title = view.findViewById<TextView>(R.id.title)
-        title.setText(movie?.title)
-
-        val tagLine = view.findViewById<TextView>(R.id.tagLine)
-        tagLine.setText(movie?.genres)
-
-
-        if (movie?.actors!!.isNotEmpty()) {
-            actorAdapter?.updateActors(movie.actors)
+        if (liveActorList?.value?.isNotEmpty() == true) {
+            liveActorList?.value?.let { actorAdapter?.updateActors(it) }
+            actorAdapter?.updateActors(liveActorList!!.value)
 
         } else {
             view.findViewById<View>(R.id.Cast).visibility = View.GONE

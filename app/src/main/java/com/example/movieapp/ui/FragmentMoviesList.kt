@@ -38,17 +38,12 @@ class FragmentMoviesList : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        con = requireContext()
         viewModel = ViewModelProvider(this, MoviesViewModelFactory()).get(FragmentMoviesListViewModel::class.java)
         liveData = viewModel.getData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
-
 
         moviesAdapter = MoviesAdapter(listener)
         val rvMovies = view.findViewById<View>(R.id.rvMovies) as RecyclerView
@@ -92,10 +87,7 @@ class FragmentMoviesList : Fragment() {
     override fun onStart() {
         super.onStart()
 
-
     }
 
-    companion object {
-        lateinit var con: Context
-    }
+
 }
