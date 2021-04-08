@@ -1,36 +1,47 @@
 package com.example.movieapp.data.network
 
+import com.example.movieapp.data.Movie
+
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
-import retrofit2.Call
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-import java.util.concurrent.TimeUnit
+import retrofit2.http.Query
 
-class Network {
 
-    private val baseUrl = "https://api.themoviedb.org/3/"
-    private val api_key = "e65ad475d75413043d534a5746a8cbbf"
-    private var page = "1"
-    private var movie_top_rated = "movie/top_rated"
-
-    private val httpClient = OkHttpClient.Builder()
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
+private const val BASE_URL ="https://api.themoviedb.org/3/"
+private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
         .build()
 
-    private val retrofitBuilder = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        //можно добавить конвертер фектори слайд 148
-        .client(httpClient)
+val loggingInterceptor = HttpLoggingInterceptor().apply {
+    level = HttpLoggingInterceptor.Level.BODY
+}
+
+val client = OkHttpClient.Builder()
+    .addInterceptor(loggingInterceptor)
+    .build()
+
+
+private val retrofit = Retrofit.Builder()
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .baseUrl(BASE_URL)
+        .client(client)
         .build()
 
-
-
+interface MovieApiService {
+    @GET("movie/popular")
+    suspend fun getMovies( @Query("api_key") apiKey: String): List<Movie>
 }
 
-interface MovieDBApi {
-    @GET("movie/top_rate")
-    fun getTopRatedMovies(): Call<List<MovieLIstResponse>>
-
+object MovieApi {
+    val retrofitService: MovieApiService by lazy {
+        retrofit.create(MovieApiService::class.java)
+    }
 }
+
+
+
