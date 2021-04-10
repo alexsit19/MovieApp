@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.movieapp.MoviesApplication
 import com.example.movieapp.data.Actor
 import com.example.movieapp.data.Movie
-import com.example.movieapp.data.loadMovie
+//import com.example.movieapp.data.loadMovie
 import kotlinx.coroutines.launch
 
 class FragmentMovieDetailsViewModel: ViewModel() {
@@ -25,7 +25,7 @@ class FragmentMovieDetailsViewModel: ViewModel() {
 
     fun loadData(id: Int) {
         viewModelScope.launch {
-            movie = loadMovie(id, MoviesApplication.getInstance())
+            //movie = loadMovie(id, MoviesApplication.getInstance())
             bind()
         }
     }
@@ -64,12 +64,12 @@ class FragmentMovieDetailsViewModel: ViewModel() {
 
     private fun bind() {
         liveActorList.value = movie?.actors
-        liveImageMovie.value = movie?.backdrop
+        //liveImageMovie.value = movie?.backdrop
         liveMovieDescription.value = movie?.overview
         liveNameMovie.value = movie?.title
-        liveReview.value = movie?.numberOfRatings.toString()
+        //liveReview.value = movie?.numberOfRatings.toString()
         liveGenre.value = movie?.genres.toString()
-        liveMinimumAge.value = movie?.minimumAge.toString()
+        //liveMinimumAge.value = movie?.minimumAge.toString()
         liveRating.value = movie?.ratings
 
     }

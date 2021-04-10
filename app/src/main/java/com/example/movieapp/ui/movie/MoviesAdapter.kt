@@ -57,10 +57,10 @@ class ViewHolderMovies(
 
     fun bind(movie: Movie) {
 
-        age.text = movie.minimumAge.toString() + "+"
+        //age.text = movie.minimumAge.toString() + "+"
         title.text = movie.title
-        tagLine.text = movie.genres
-        reviews.text = movie.numberOfRatings.toString()
+        //tagLine.text = movie.genres
+        //reviews.text = movie.numberOfRatings.toString()
         duration.text = movie.runtime.toString()
 
 

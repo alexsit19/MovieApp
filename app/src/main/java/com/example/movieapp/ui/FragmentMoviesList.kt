@@ -16,7 +16,6 @@ import com.example.movieapp.ui.movie.MoviesAdapter
 import com.example.movieapp.R
 import com.example.movieapp.ui.movie.SimpleDividerItemDecoration
 import com.example.movieapp.data.Movie
-import com.example.movieapp.data.loadMovies
 import com.example.movieapp.viewmodel.FragmentMoviesListViewModel
 import com.example.movieapp.viewmodel.MoviesViewModelFactory
 import kotlinx.coroutines.*

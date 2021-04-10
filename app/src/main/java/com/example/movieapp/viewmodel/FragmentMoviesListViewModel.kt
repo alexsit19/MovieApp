@@ -7,7 +7,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.*
 import com.example.movieapp.MoviesApplication
 import com.example.movieapp.data.Movie
-import com.example.movieapp.data.loadMovies
+//import com.example.movieapp.data.loadMovies
 import com.example.movieapp.data.network.MovieApi
 import com.example.movieapp.ui.FragmentMoviesList
 import com.example.movieapp.ui.MainActivity
@@ -25,9 +25,10 @@ class FragmentMoviesListViewModel: ViewModel() {
         viewModelScope.launch {
             //mutableLiveData.value = loadMovies(MoviesApplication.getInstance())
             try {
-                mutableLiveData.value = MovieApi.retrofitService.getMovies(apiKey)
+                mutableLiveData.value = MovieApi.retrofitService.getMovies(apiKey).movies
+                Log.d("DEBUG work", mutableLiveData.value.toString())
             } catch (e: Exception) {
-                Log.d("DEBUG", "${e.message}")
+                Log.d("DEBUG exception", "${e.message}")
             }
         }
     }
