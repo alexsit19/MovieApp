@@ -1,4 +1,6 @@
 package com.example.movieapp.data
 
-class Genre {
-}
+data class Genre(
+        val id: Int,
+        val name: String
+    )

@@ -2,6 +2,7 @@ package com.example.movieapp.data.network
 
 import com.example.movieapp.data.ActorsInfo
 import com.example.movieapp.data.ApiResponse
+import com.example.movieapp.data.GenreResponse
 import com.example.movieapp.data.Movie
 
 import com.squareup.moshi.Moshi
@@ -44,6 +45,13 @@ interface MovieApiService {
 
     @GET("movie/{movie_id}/credits")
     suspend fun getActors(@Path("movie_id") id: Int, @Query("api_key") apiKey: String): ActorsInfo
+
+    @GET("genre/movie/list")
+    suspend fun getGenres( @Query("api_key") apiKey: String): GenreResponse
+
+    companion object {
+        const val API_KEY = "e65ad475d75413043d534a5746a8cbbf"
+    }
 }
 
 object MovieApi {
@@ -51,6 +59,8 @@ object MovieApi {
         retrofit.create(MovieApiService::class.java)
     }
 }
+
+
 
 
 

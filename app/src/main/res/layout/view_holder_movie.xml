@@ -77,7 +77,7 @@
               android:maxLines = "1"
               android:scrollbars = "horizontal"
               android:layout_marginStart="6dp"
-              android:layout_marginBottom="67dp"
+              android:layout_marginBottom="57dp"
               android:text="tags, tags, tags"
               android:textColor="@color/tag_line"
               android:textSize="12sp"
@@ -94,7 +94,7 @@
               android:progressDrawable="@drawable/raiting_progress"
               android:indeterminateDrawable="@drawable/rating_intermediate"
               android:layout_marginStart="6dp"
-              android:layout_marginBottom="60dp"
+              android:layout_marginBottom="50dp"
               app:layout_constraintBottom_toBottomOf="parent"
               app:layout_constraintStart_toStartOf="parent"  />
 
@@ -107,7 +107,7 @@
                android:textSize="12sp"
                android:textColor="@color/numberOfReviewColor"
                android:text="125 REVIEWS"
-               android:layout_marginBottom="58dp"
+               android:layout_marginBottom="48dp"
                android:layout_marginStart="6dp"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintStart_toEndOf="@id/ratingBar" />
@@ -121,23 +121,9 @@
                android:textStyle="bold"
               android:textColor="@color/white"
                android:layout_marginStart="8dp"
-               android:layout_marginBottom="20dp"
+               android:layout_marginBottom="10dp"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintStart_toStartOf="parent" />
-
-          <TextView
-              android:id="@+id/duration"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-               android:text="135 MIN"
-               android:textStyle="bold"
-               android:textColor="@color/min"
-               android:textSize="12sp"
-               android:layout_marginBottom="2dp"
-               android:layout_marginStart="8dp"
-               app:layout_constraintBottom_toBottomOf="parent"
-               app:layout_constraintStart_toStartOf="parent"/>
-
 
      </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

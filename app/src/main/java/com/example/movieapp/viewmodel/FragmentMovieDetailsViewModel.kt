@@ -63,7 +63,7 @@ class FragmentMovieDetailsViewModel: ViewModel() {
     }
 
     private fun bind() {
-        liveActorList.value = movie?.actors
+        //liveActorList.value = movie?.actors
         //liveImageMovie.value = movie?.backdrop
         liveMovieDescription.value = movie?.overview
         liveNameMovie.value = movie?.title

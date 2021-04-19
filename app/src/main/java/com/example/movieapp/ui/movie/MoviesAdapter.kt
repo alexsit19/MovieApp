@@ -48,24 +48,23 @@ class ViewHolderMovies(
             onItemClicked(adapterPosition)
         }
     }
+
+    private val BASE_URL = "https://image.tmdb.org/t/p/w500"
     private val age = itemView.findViewById<TextView>(R.id.age_textView)
     private val title = itemView.findViewById<TextView>(R.id.title_textView)
     private val tagLine = itemView.findViewById<TextView>(R.id.tags)
     private val moviePic = itemView.findViewById<ImageView>(R.id.movie_pic)
     private val reviews = itemView.findViewById<TextView>(R.id.review)
-    private val duration = itemView.findViewById<TextView>(R.id.duration)
 
     fun bind(movie: Movie) {
 
-        //age.text = movie.minimumAge.toString() + "+"
+        age.text = movie.minimumAge.toString()
         title.text = movie.title
-        //tagLine.text = movie.genres
-        //reviews.text = movie.numberOfRatings.toString()
-        duration.text = movie.runtime.toString()
-
+        tagLine.text = movie.genres
+        reviews.text = movie.numberOfRatings.toString()
 
         Glide.with(itemView.context)
-            .load(movie.poster)
+            .load(BASE_URL + movie.poster)
             .placeholder(R.drawable.base_line_movie)
             .centerCrop()
             .into(moviePic)
